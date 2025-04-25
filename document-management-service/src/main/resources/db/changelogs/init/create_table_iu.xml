@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="NRomanof" id="create_table_documents_contract">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="documents_contract"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="documents_contract">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="documents_contract_id_pkey"/>
+            </column>
+            <column name="client_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="loan_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contract_number" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mobile" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="documents_contract" indexName="idx_documents_contract_client_id">
+            <column name="client_id"/>
+        </createIndex>
+        <createIndex tableName="documents_contract" indexName="idx_documents_contract_loan_id">
+            <column name="loan_id"/>
+        </createIndex>
+        <createIndex tableName="documents_contract" indexName="idx_documents_contract_number">
+            <column name="contract_number"/>
+        </createIndex>
+        <createIndex tableName="documents_contract" indexName="idx_documents_contract_mobile">
+            <column name="mobile"/>
+        </createIndex>
+
+    </changeSet>
+</databaseChangeLog>

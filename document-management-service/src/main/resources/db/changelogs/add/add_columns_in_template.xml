@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="NRomanof" id="add_create_date_in_document_template">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="document_template" columnName="create_date"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="document_template">
+            <column name="create_date" type="datetime">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet author="NRomanof" id="add_user_name_in_document_template">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="document_template" columnName="user_name"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="document_template">
+            <column name="user_name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

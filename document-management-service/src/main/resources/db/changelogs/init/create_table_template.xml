@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="NRomanof" id="create_table_document_template">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="document_template"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="document_template">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="document_template_id_pkey"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="document_body" type="bytea">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="document_template" indexName="idx_document_template_title">
+            <column name="title"/>
+        </createIndex>
+
+        <createSequence sequenceName="document_template_seq"/>
+
+    </changeSet>
+</databaseChangeLog>
