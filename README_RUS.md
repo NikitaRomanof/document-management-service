@@ -57,4 +57,4 @@
 1. Клонировать репозиторий
 2. Настроить подключение к БД в `application.properties`
 3. Собрать проект: `mvn clean install`
-4. Запустить: `java -jar target/IndividualContractServiceApplication.jar`
+4. Запустить: `java -jar target/DocumentManagementApplication.jar`
