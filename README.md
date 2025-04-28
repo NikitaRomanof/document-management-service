@@ -1,60 +1,60 @@
-# document-management-service
+# Document Generation and Management System
 
-## Описание проекта
+## Project Description
 
-Проект представляет собой систему для работы с шаблонами документов и генерации PDF-файлов на их основе. Основные возможности:
+The project is a system for working with document templates and generating PDF files based on them. Key features:
 
-- Хранение шаблонов документов в формате DOCX с поддержкой версионирования
-- Генерация PDF-документов по шаблонам с подстановкой данных
-- Управление документами клиентов (сохранение, извлечение, архивирование)
-- Поддержка нескольких версий документов для одного клиента
+- Storage of document templates in DOCX format with versioning support
+- PDF document generation from templates with data substitution
+- Client document management (storage, retrieval, archiving)
+- Support for multiple document versions per client
 
-## Основные функции
+## Core Functionality
 
-### Работа с шаблонами
-- Загрузка новых версий шаблонов документов в систему
-- Получение шаблонов по ID или названию (всегда возвращается последняя версия)
-- Хранение истории версий каждого шаблона
+### Template Management
+- Uploading new versions of document templates to the system
+- Retrieving templates by ID or name (always returns the latest version)
+- Maintaining version history for each template
 
-### Генерация документов
-- Создание PDF-документов на основе шаблонов и входных данных
-- Поддержка пакетной генерации нескольких документов одновременно
-- Предварительный просмотр документов перед сохранением
+### Document Generation
+- Creating PDF documents from templates and input data
+- Batch generation of multiple documents simultaneously
+- Document preview before saving
 
-### Управление документами клиентов
-- Сохранение сгенерированных документов с привязкой к клиенту и займу
-- Получение отдельных документов или всех документов клиента
-- Формирование ZIP-архивов с документами (все версии или только последние)
+### Client Document Management
+- Saving generated documents linked to clients and loans
+- Retrieving individual documents or all documents for a client
+- Creating ZIP archives with documents (all versions or only latest)
 
-## Технологии
+## Technologies
 
 - **Java**
 - **Spring Boot**
 - **Spring Data JPA**
-- **Swagger (OpenAPI 3.0)** для документации API
-- DOCX/PDF генерация
+- **Swagger (OpenAPI 3.0)** for API documentation
+- DOCX/PDF generation
 
 ## API Endpoints
 
-### Контроллер документов (`DocumentsContractController`)
-| Метод | Эндпоинт | Описание |
-|-------|----------|----------|
-| POST  | `/generate` | Генерация одного или нескольких документов |
-| GET   | `/document` | Получение конкретного документа в PDF |
-| POST  | `/individualContract/preview` | Предварительный просмотр документа |
-| GET   | `/document/all` | Получение всех документов клиента (ZIP) |
-| GET   | `/document/last` | Получение последних версий всех документов клиента (ZIP) |
+### Documents Controller (`DocumentsContractController`)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST   | `/generate` | Generate one or multiple documents |
+| GET    | `/document` | Retrieve specific document as PDF |
+| POST   | `/individualContract/preview` | Preview document before saving |
+| GET    | `/document/all` | Get all client documents (ZIP) |
+| GET    | `/document/last` | Get latest versions of all client documents (ZIP) |
 
-### Контроллер шаблонов (`TemplateController`)
-| Метод | Эндпоинт | Описание |
-|-------|----------|----------|
-| POST  | `/template/saveTemplate` | Сохранение нового шаблона документа |
-| GET   | `/template/template` | Получение шаблона по ID |
-| GET   | `/template/templateTitle` | Получение последней версии шаблона по названию |
+### Templates Controller (`TemplateController`)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST   | `/template/saveTemplate` | Save new document template |
+| GET    | `/template/template` | Get template by ID |
+| GET    | `/template/templateTitle` | Get latest template version by name |
 
-## Установка и запуск
+## Installation and Setup
 
-1. Клонировать репозиторий
-2. Настроить подключение к БД в `application.properties`
-3. Собрать проект: `mvn clean install`
-4. Запустить: `java -jar target/IndividualContractServiceApplication.jar`
+1. Clone the repository
+2. Configure database connection in `application.properties`
+3. Build the project: `mvn clean install`
+4. Run: `java -jar target/DocumentManagementApplication.jar`
