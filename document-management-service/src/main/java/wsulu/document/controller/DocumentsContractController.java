@@ -12,11 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import wsulu.document.dto.RequestDtoWrapper;
 import wsulu.document.service.DocumentZipService;
 import wsulu.document.service.DocumentsContractService;
-
-import java.util.List;
-import java.util.Map;
 
 @Tag(name = "Document controller", description = "The controller is responsible for handling customer documents in .pdf format")
 @RestController
@@ -40,11 +38,11 @@ public class DocumentsContractController {
             @ApiResponse(responseCode = "200", description = "true - the document was successfully generated and saved in the database" +
                     "false - document creation failed")})
     @PostMapping(value = "/generate")
-    public boolean generate(@RequestBody(description = "List of maps, where key is the name of the parameter in the template," +
+    public boolean generate(@RequestBody(description = "List of maps(in wrapper dto), where key is the name of the parameter in the template," +
             "value is the parameter. The list always contains a map with the key TEMPLATE in the value stores " +
             "the name of the template that will be selected to generate the document", required = true)
-                            List<Map<String, Object>> data) {
-        return documentsContractService.generateAndSave(data);
+                            RequestDtoWrapper request) {
+        return documentsContractService.generateAndSave(request.getData());
     }
 
     @Operation(summary = "Method for retrieving a document", description = "Outputs a previously created document stored in the database")
@@ -64,8 +62,8 @@ public class DocumentsContractController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns the document as an array of bytes")})
     @PostMapping(value = "/individualContract/preview", produces = "application/pdf")
-    public byte[] individualContractPreview(@RequestBody(description = "The map, where key is the name of the parameter in the template, value is the parameter", required = true) Map<String, Object> data) {
-        return documentsContractService.previewDocumentsContract(data);
+    public byte[] individualContractPreview(@RequestBody(description = "The map(in wrapper dto), where key is the name of the parameter in the template, value is the parameter", required = true) RequestDtoWrapper request) {
+        return documentsContractService.previewDocumentsContract(request);
     }
 
     @Operation(summary = "Method of obtaining all documents", description = "Returns all client documents for a particular loan")

@@ -1,4 +1,4 @@
-package wsulu.document;
+package wsulu.document.repo;
 
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import wsulu.document.model.TemplateEntity;
-import wsulu.document.repo.TemplateRepo;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -23,6 +22,7 @@ import java.util.Date;
 public class TemplateRepoTests {
 
   @Container
+  @SuppressWarnings("resource")
   static PostgreSQLContainer<?> database =
       new PostgreSQLContainer<>("postgres:15")
           .withDatabaseName("springboot")

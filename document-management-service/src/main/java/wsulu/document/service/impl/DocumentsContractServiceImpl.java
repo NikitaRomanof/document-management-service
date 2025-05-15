@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import wsulu.document.enums.Keys;
 import wsulu.document.model.DocumentEntity;
 import wsulu.document.model.DocumentsContractEntity;
+import wsulu.document.dto.RequestDtoWrapper;
 import wsulu.document.repo.DocumentsContractRepo;
 import wsulu.document.service.DocumentsContractService;
 import wsulu.document.service.TemplateService;
@@ -22,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Service class for working with client documents in .pdf format
@@ -60,14 +60,19 @@ public class DocumentsContractServiceImpl implements DocumentsContractService {
     }
 
     @Override
-    public byte[] previewDocumentsContract(@NotNull Map<String, Object> data) {
+    public byte[] previewDocumentsContract(@NotNull RequestDtoWrapper request) {
+        if (request.getData() == null || request.getData().isEmpty()) {
+            logger.warn("previewDocumentsContract: data is null or empty");
+            return null;
+        }
+        Map<String, Object> data = request.getData().get(0);
         if (!data.containsKey(Keys.TEMPLATE.name().toLowerCase())) {
-            logger.warn("reviewDocumentsContract: data not contain template name");
+            logger.warn("previewDocumentsContract: data not contain template name");
             return null;
         }
         byte[] documentBody = getDocxBodyLastVersion((String)data.get(Keys.TEMPLATE.name().toLowerCase()));
         if (documentBody.length == 0) {
-            logger.warn("reviewDocumentsContract: template not found");
+            logger.warn("previewDocumentsContract: template not found");
             return null;
         }
         return ConverterUtil.generatePdf(data, documentBody);
@@ -75,7 +80,7 @@ public class DocumentsContractServiceImpl implements DocumentsContractService {
 
     @Override
     public boolean generateAndSave(@NotNull List<Map<String, Object>> data) {
-        data = data.stream().filter(e -> e.containsKey(Keys.TEMPLATE.name().toLowerCase())).collect(Collectors.toList());
+        data = data.stream().filter(e -> e.containsKey(Keys.TEMPLATE.name().toLowerCase())).toList();
         if (data.isEmpty()) {
             logger.warn("generateAndSave: data not contain template name");
             return false;
@@ -165,7 +170,7 @@ public class DocumentsContractServiceImpl implements DocumentsContractService {
     }
 
     private DocumentEntity findLastVersionByDocumentTitle(Set<DocumentEntity> documentEntitySet,
-                                                          @NotNull String documentTitle) {
+                                                         @NotNull String documentTitle) {
         Optional<DocumentEntity> opt =
                 documentEntitySet.stream()
                         .filter(e -> documentTitle.equals(e.getDocumentTitle()))

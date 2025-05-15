@@ -30,6 +30,10 @@ public class TemplateServiceImpl implements TemplateService {
     public boolean saveTemplateDocx(MultipartFile file, String templateName, String userName) {
         try {
             byte[] bodyDocument = file.getBytes();
+            if (bodyDocument.length == 0) {
+                logger.error("saveTemplateDocx: file is empty");
+                return false;
+            }
             TemplateEntity currentDocumentInRepo = templateRepo.findFirstByTitleOrderByIdDesc(templateName);
             long version = currentDocumentInRepo == null ? 1L : currentDocumentInRepo.getVersion() + 1;
             TemplateEntity newDocumentInRepo = new TemplateEntity();
@@ -40,7 +44,7 @@ public class TemplateServiceImpl implements TemplateService {
             newDocumentInRepo.setUserName(userName);
             templateRepo.save(newDocumentInRepo);
         } catch (Exception e) {
-            logger.error("save: error={}", e.getMessage());
+            logger.error("saveTemplateDocx: error={}", e.getMessage());
             return false;
         }
         return true;

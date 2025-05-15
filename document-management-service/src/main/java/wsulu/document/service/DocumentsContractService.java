@@ -1,6 +1,7 @@
 package wsulu.document.service;
 
 import jakarta.validation.constraints.NotNull;
+import wsulu.document.dto.RequestDtoWrapper;
 
 import java.util.List;
 import java.util.Map;
@@ -20,10 +21,10 @@ public interface DocumentsContractService {
 
     /**
      * Generation of a preliminary document without saving it to the database.
-     * @param data map with variables, where the key is the name of the variable and the value is the variable itself. Always contains the key - TEMPLATE
+     * @param request map with variables (wrap in dto), where the key is the name of the variable and the value is the variable itself. Always contains the key - TEMPLATE
      * @return byte array containing the generated .pdf document
      */
-    byte[] previewDocumentsContract(@NotNull Map<String, Object> data);
+    byte[] previewDocumentsContract(@NotNull RequestDtoWrapper request);
 
     /**
      * Generation of any number of client documents with subsequent saving to the database as a byte array
